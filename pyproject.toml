@@ -217,7 +217,7 @@ dependencies = [
     # Stripe
     "stripe==14.3.0",
     # Admin
-    "django-unfold==0.73.0",
+    "django-unfold==0.78.1",
     # AI
     "posthog==7.8.2",
 ]
