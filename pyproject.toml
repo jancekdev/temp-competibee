@@ -166,7 +166,7 @@ dev = [
     "pytest==9.0.1",
     "pytest-sugar==1.1.1",
     # Code quality
-    "ruff==0.14.14",
+    "ruff==0.15.0",
     "coverage==7.13.3",
     "djlint==1.36.4",
     "pre-commit==4.5.1",
