@@ -163,7 +163,7 @@ dev = [
     # Testing
     "mypy==1.18.2",
     "django-stubs[compatible-mypy]==5.2.9",
-    "pytest==9.0.1",
+    "pytest==9.0.2",
     "pytest-sugar==1.1.1",
     # Code quality
     "ruff==0.14.14",
