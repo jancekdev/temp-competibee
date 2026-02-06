@@ -1,9 +1,15 @@
 volumes:
   production_django_media: {}
 
+networks:
+  dokploy-network:
+    external: true
 
 services:
   django: &django
+    networks:
+      - default
+      - dokploy-network
 
     build:
       context: .
@@ -43,6 +49,9 @@ services:
       context: .
       dockerfile: ./config/deployment/production/nginx/Dockerfile
     image: temp_competibee_production_nginx
+    networks:
+      - default
+      - dokploy-network
     ports:
       - '3001:3000'
     volumes:
