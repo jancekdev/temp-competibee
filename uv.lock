@@ -725,14 +725,14 @@ wheels = [
 
 [[package]]
 name = "django-unfold"
-version = "0.73.0"
+version = "0.78.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/01/43/a21d7a1e69dfd11ebdd0ac13ee50b0e1864121b46e38d831ba103b88fc17/django_unfold-0.73.0.tar.gz", hash = "sha256:deee9a8f1f3acd103e7832842edadff739ac3691b5df9d190c099d1844d42da6", size = 1103027, upload-time = "2025-12-08T07:17:24.092Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/ca/c1148935fd0753fb70ddad19b7b7180dd94eabd267024dd65611a2c4388f/django_unfold-0.78.1.tar.gz", hash = "sha256:1de8537f0037b48e84d72b30229259060140ac84fc30d79eb69b5c9de6c5e51d", size = 1109404, upload-time = "2026-02-03T10:11:08.838Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/8e/be284f1134c4072e985bb7689771a7aee58f54c63f0743bb3135a1649b81/django_unfold-0.73.0-py3-none-any.whl", hash = "sha256:878793ecc14eff536f1166505103b0404f4283799fd2d07a60953616c8dff416", size = 1216951, upload-time = "2025-12-08T07:17:22.623Z" },
+    { url = "https://files.pythonhosted.org/packages/79/0b/4dd387462f0d7e705c477da8c761303591fccd66f0a6b5d6ba2ddc0f7855/django_unfold-0.78.1-py3-none-any.whl", hash = "sha256:6b557030d3ad6c8275ecacb69260b03a7ed3de972cb2e60ef2dea6d3363d515c", size = 1224742, upload-time = "2026-02-03T10:11:07.057Z" },
 ]
 
 [[package]]
@@ -1900,7 +1900,7 @@ requires-dist = [
     { name = "django-model-utils", specifier = "==5.0.0" },
     { name = "django-ninja", specifier = "==1.5.3" },
     { name = "django-redis", specifier = "==6.0.0" },
-    { name = "django-unfold", specifier = "==0.73.0" },
+    { name = "django-unfold", specifier = "==0.78.1" },
     { name = "flower", specifier = "==2.0.1" },
     { name = "hiredis", specifier = "==3.3.0" },
     { name = "pillow", specifier = "==11.3.0" },
