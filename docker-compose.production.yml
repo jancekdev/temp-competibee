@@ -49,14 +49,18 @@ services:
   celeryworker:
     <<: *django
     image: temp_competibee_production_celeryworker
+    ports: []
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
     image: temp_competibee_production_celerybeat
+    ports: []
     command: /start-celerybeat
 
   flower:
     <<: *django
     image: temp_competibee_production_flower
+    ports:
+      - '5566:5555'
     command: /start-flower
