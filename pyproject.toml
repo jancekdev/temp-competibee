@@ -183,7 +183,7 @@ production = [
     # Production dependencies
     "gunicorn==25.0.1",
     "psycopg[c]==3.2.9",
-    "sentry-sdk==2.51.0",
+    "sentry-sdk==2.52.0",
     # Django production
     "django-anymail[postmark]==14.0",
 ]
