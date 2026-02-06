@@ -13,7 +13,7 @@ services:
     volumes:
       - production_django_media:/app/temp_competibee/media
     ports:
-      - '5000:5000'
+      - '5001:5000'
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
