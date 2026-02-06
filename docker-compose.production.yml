@@ -1,0 +1,62 @@
+volumes:
+  production_django_media: {}
+
+
+services:
+  django: &django
+
+    build:
+      context: .
+      dockerfile: ./config/deployment/production/django/Dockerfile
+
+    image: temp_competibee_production_django
+    volumes:
+      - production_django_media:/app/temp_competibee/media
+    ports:
+      - '5000:5000'
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_ADMIN_URL=${DJANGO_ADMIN_URL}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DJANGO_SECURE_SSL_REDIRECT=${DJANGO_SECURE_SSL_REDIRECT}
+      - BASE_URL=${BASE_URL}
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY}
+      - CONN_MAX_AGE=${CONN_MAX_AGE}
+      - GUNICORN_CMD_ARGS=${GUNICORN_CMD_ARGS}
+      - DJANGO_SERVER_EMAIL=${DJANGO_SERVER_EMAIL}
+      - REDIS_URL=${REDIS_URL}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTMARK_SERVER_TOKEN=${POSTMARK_SERVER_TOKEN}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - POSTHOG_API_KEY=${POSTHOG_API_KEY}
+      - CELERY_FLOWER_USER=${CELERY_FLOWER_USER}
+      - CELERY_FLOWER_PASSWORD=${CELERY_FLOWER_PASSWORD}
+    command: /start
+  nginx:
+    build:
+      context: .
+      dockerfile: ./config/deployment/production/nginx/Dockerfile
+    image: temp_competibee_production_nginx
+    ports:
+      - '3000:3000'
+    volumes:
+      - production_django_media:/usr/share/nginx/media:ro
+  celeryworker:
+    <<: *django
+    image: temp_competibee_production_celeryworker
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: temp_competibee_production_celerybeat
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: temp_competibee_production_flower
+    command: /start-flower

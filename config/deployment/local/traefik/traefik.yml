@@ -1,0 +1,58 @@
+log:
+  level: DEBUG
+
+api:
+  dashboard: true
+
+accessLog: {}
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/
+    watch: true
+
+entryPoints:
+  web:
+    address: ":4000"
+
+http:
+  routers:
+    django:
+      service: django
+      rule: >
+        PathPrefix(`/accounts`) ||
+        PathPrefix(`/_allauth`) ||
+        PathPrefix(`/admin`) ||
+        PathPrefix(`/static`) ||
+        PathPrefix(`/payments/checkout`) ||
+        PathPrefix(`/payments/webhook`) ||
+        PathPrefix(`/payments/customer-portal`) ||
+        PathPrefix(`/api`) ||
+        PathPrefix(`/__reload__`) ||
+        PathPrefix(`/__debug__`)
+      entryPoints:
+        - web
+      priority: 100
+    react:
+      service: react
+      rule: "PathPrefix(`/`)"
+      entryPoints:
+        - web
+      priority: 1
+  middlewares:
+    csrf:
+      # https://doc.traefik.io/traefik/master/middlewares/http/headers/#hostsproxyheaders
+      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+      headers:
+        hostsProxyHeaders: ["X-CSRFToken"]
+  services:
+    react:
+      loadBalancer:
+        servers:
+          - url: "http://react:3000"
+    django:
+      loadBalancer:
+        servers:
+          - url: "http://django:8000"

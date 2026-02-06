@@ -1,0 +1,136 @@
+
+{% extends "account/email/base_message.html" %}
+
+{% block email_title %}Account Already Exists - temp competibee{% endblock %}
+
+{% block preview_text %}An account with this email already exists on temp competibee{% endblock %}
+
+{% block email_heading %}Account Already Exists{% endblock %}
+
+{% block email_content %}
+<p style="margin: 0 0 20px 0; color: #ffffff;">
+    Hi there,
+</p>
+
+<p style="margin: 0 0 20px 0; color: #9ca3af;">
+    You or someone else tried to create a newtemp competibee account using this email address:
+</p>
+
+<div style="margin: 0 0 20px 0; padding: 12px 20px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; text-align: center;">
+    <span style="color: #ffffff; font-family: 'Courier New', Courier, monospace; font-size: 14px; font-weight: 500;">{{ user_email }}</span>
+</div>
+
+<p style="margin: 0 0 20px 0; color: #9ca3af;">
+    However, an account with this email address already exists. If this was you and you've forgotten your password, you can reset it using the button below.
+</p>
+{% endblock %}
+
+{% block email_cta %}
+<tr>
+    <td align="center" style="padding: 30px 0;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                    <a href="{{ password_reset_url }}" target="_blank" style="display: inline-block; padding: 16px 32px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
+                        Reset Password
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="padding: 0 0 30px 0;">
+        <p style="margin: 0; font-size: 14px; color: #6b7280; text-align: center;">
+            Or copy and paste this link into your browser:
+        </p>
+        <p style="margin: 10px 0 0 0; font-size: 12px; color: #6b7280; text-align: center; word-break: break-all;">
+            <a href="{{ password_reset_url }}" style="color: #14b8a6; text-decoration: underline;">{{ password_reset_url }}</a>
+        </p>
+    </td>
+</tr>
+{% endblock %}
+
+{% block additional_content %}
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px;">
+    <tr>
+        <td style="padding: 20px; background-color: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 4px solid #3b82f6;">
+            <p style="margin: 0 0 10px 0; font-size: 14px; color: #60a5fa;">
+                <strong>What happened?</strong>
+            </p>
+            <p style="margin: 0; font-size: 14px; color: #60a5fa;">
+                Someone (possibly you) tried to create a new account with your email address. Since an account already exists, we're sending you this notification instead of creating a duplicate account.
+            </p>
+        </td>
+    </tr>
+</table>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+    <tr>
+        <td>
+            <h2 style="margin: 0 0 20px 0; font-size: 18px; font-weight: 600; color: #ffffff;">
+                Already have access? Sign in instead
+            </h2>
+
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+                <tr>
+                    <td>
+                        <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                            🔐 Sign In to Your Account
+                        </h3>
+                        <p style="margin: 0 0 15px 0; font-size: 14px; color: #9ca3af; line-height: 1.5;">
+                            Access your existingtemp competibee account and continue building amazing projects.
+                        </p>
+                        <a href="{{ site_url }}/accounts/login/" style="display: inline-block; font-size: 14px; font-weight: 500; color: #14b8a6; text-decoration: none;">
+                            Sign In →
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px;">
+    <tr>
+        <td style="padding: 20px; background-color: rgba(251, 191, 36, 0.1); border-radius: 8px; border-left: 4px solid #f59e0b;">
+            <p style="margin: 0 0 10px 0; font-size: 14px; color: #fbbf24;">
+                <strong>Security Notice:</strong>
+            </p>
+            <p style="margin: 0; font-size: 14px; color: #fbbf24;">
+                If you didn't try to create an account, you can safely ignore this email. Your existing account remains secure and unchanged.
+            </p>
+        </td>
+    </tr>
+</table>
+
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px;">
+    <tr>
+        <td align="center">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                Need Help?
+            </h3>
+            <p style="margin: 0 0 20px 0; font-size: 14px; color: #9ca3af;">
+                If you're having trouble accessing your account, we're here to help
+            </p>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td style="padding: 0 15px;">
+                        <a href="info@competibee.com" style="color: #14b8a6; text-decoration: none; font-size: 14px;">
+                            ✉️ Email Support
+                        </a>
+                    </td>
+                    <td style="padding: 0 15px;">
+                        <a href="{{ site_url }}/app" style="color: #14b8a6; text-decoration: none; font-size: 14px;">
+                            📚 Documentation
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block email_id %}ACCOUNT-EXISTS-{{ timestamp|default:"" }}{% endblock %}

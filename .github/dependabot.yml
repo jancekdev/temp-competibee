@@ -1,0 +1,87 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "npm"
+    directory: "/frontend/react"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/local"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/local/react"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/local/celery"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/production/django"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/production/django/celery"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/production/nginx"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/production/postgres"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "docker"
+    directory: "/config/deployment/production/traefik"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"

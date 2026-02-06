@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+python /app/manage.py migrate --noinput
+python /app/manage.py collectstatic --noinput --ignore=jsutils/
+
+WEB_CONCURRENCY="${WEB_CONCURRENCY:-1}"
+if [ -n "${GUNICORN_CMD_ARGS:-}" ]; then
+    export GUNICORN_CMD_ARGS="--workers ${WEB_CONCURRENCY} ${GUNICORN_CMD_ARGS}"
+else
+    export GUNICORN_CMD_ARGS="--workers ${WEB_CONCURRENCY}"
+fi
+exec gunicorn config.wsgi --bind 0.0.0.0:5000 --chdir=/app

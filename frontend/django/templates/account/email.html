@@ -1,0 +1,73 @@
+
+{% extends "allauth/layouts/manage.html" %}
+{% load allauth i18n %}
+
+{% block head_title %}{% trans "Email Addresses" %}{% endblock head_title %}
+
+{% block content %}
+  <h1 class="text-2xl font-bold text-white mb-8">{% trans "Email Addresses" %}</h1>
+
+  {% if emailaddresses %}
+    <p class="text-sm text-gray-400 mb-6">
+      {% trans 'The following email addresses are associated with your account:' %}
+    </p>
+
+    <form action="{% url 'account_email' %}" class="emailaddresses" method="post">
+      {% csrf_token %}
+      <div class="space-y-4 mb-6">
+        {% for emailaddress in emailaddresses %}
+          <div class="flex items-center justify-between p-4 border border-white/10 rounded-lg bg-white/5">
+            <div class="flex items-center space-x-3">
+              <input type="radio" name="email" value="{{ emailaddress.email }}" id="email_radio_{{ forloop.counter }}" 
+                     {% if emailaddress.primary or emailaddresses|length == 1 %}checked="checked"{% endif %}
+                     class="h-4 w-4 text-teal-600 border-white/10 bg-white/5 focus:ring-teal-600">
+              <label for="email_radio_{{ forloop.counter }}" class="text-sm text-white">
+                {{ emailaddress.email }}
+                {% if emailaddress.verified %}
+                  <span class="ml-2 inline-flex items-center rounded-full bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800">{% trans "Verified" %}</span>
+                {% else %}
+                  <span class="ml-2 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">{% trans "Unverified" %}</span>
+                {% endif %}
+                {% if emailaddress.primary %}
+                  <span class="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">{% trans "Primary" %}</span>
+                {% endif %}
+              </label>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        {% element button type="submit" name="action_primary" tags="primary" %}
+          {% trans 'Make Primary' %}
+        {% endelement %}
+        {% element button type="submit" name="action_send" tags="secondary" %}
+          {% trans 'Re-send Verification' %}
+        {% endelement %}
+        {% element button type="submit" name="action_remove" tags="danger" %}
+          {% trans 'Remove' %}
+        {% endelement %}
+      </div>
+    </form>
+  {% else %}
+    <p class="text-sm text-gray-400 mb-6">
+      {% trans 'Warning: You currently do not have any email address set up. You should really add an email address so you can receive notifications, reset your password, etc.' %}
+    </p>
+  {% endif %}
+
+  {% if can_add_email %}
+    <div class="mt-8">
+      <h2 class="text-lg font-semibold text-white mb-4">{% trans "Add Email Address" %}</h2>
+      
+      <form method="post" action="{% url 'account_email' %}" class="space-y-6">
+        {% csrf_token %}
+        {% element field form=add_email_form field="email" %}{% endelement %}
+        <div>
+          {% element button type="submit" name="action_add" tags="primary" %}
+            {% trans "Add Email" %}
+          {% endelement %}
+        </div>
+      </form>
+    </div>
+  {% endif %}
+{% endblock content %}

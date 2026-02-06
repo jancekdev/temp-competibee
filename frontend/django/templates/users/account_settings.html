@@ -1,0 +1,91 @@
+
+{% extends "layout/app_layout.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Account Settings" %}{% endblock head_title %}
+
+{% block content %}
+<div class="space-y-8">
+  <!-- Header -->
+  <div class="border-b border-white/10 pb-6">
+    <h1 class="text-3xl font-bold text-white">Account Settings</h1>
+    <p class="mt-2 text-neutral-300">Manage your account information and preferences</p>
+  </div>
+
+  <!-- Account Information Section -->
+  <div class="bg-neutral-800/50 backdrop-blur-sm rounded-xl border border-white/10 p-6">
+    <h2 class="text-xl font-semibold text-white mb-6">Account Information</h2>
+    
+    <div class="space-y-6">
+      <!-- User Name -->
+      <div>
+        <label class="block text-sm font-medium text-neutral-300 mb-2">Full Name</label>
+        <span class="text-white">{{ user.name|default:"Not set" }}</span>
+      </div>
+      
+      <!-- Primary Email -->
+      <div>
+        <label class="block text-sm font-medium text-neutral-300 mb-2">Email Address</label>
+        <div class="flex items-center space-x-2">
+          <span class="text-white">{{ user.email }}</span>
+          {% if primary_email.verified %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-900/30 text-green-300 border border-green-700/50">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              Verified
+            </span>
+          {% else %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-900/30 text-yellow-300 border border-yellow-700/50">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+              Unverified
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Current Plan -->
+      <div>
+        <label class="block text-sm font-medium text-neutral-300 mb-2">Current Plan</label>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            {% if user.has_membership %}
+              <span class="text-lg font-semibold text-white">Pro Member</span>
+              <span class="inline-flex items-center rounded-full bg-green-900/30 px-2.5 py-0.5 text-xs font-medium text-green-300 border border-green-700/50">
+                Active
+              </span>
+            {% else %}
+              <span class="text-lg font-semibold text-white">Free Plan</span>
+            {% endif %}
+          </div>
+          {% if user.has_membership %}
+            <a href="{% url 'payments:customer-portal' %}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
+              Manage Membership
+            </a>
+          {% else %}
+            <a href="{% url 'home' %}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
+              Purchase Membership
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-sm font-medium text-neutral-300 mb-2">Password</label>
+        <div class="flex items-center justify-between">
+          <span class="text-white">••••••••</span>
+          <a href="{% url 'account_change_password' %}" class="text-blue-400 hover:text-blue-300 text-sm font-medium">
+            Change Password
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}
+

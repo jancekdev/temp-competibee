@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block bodyclass %}h-full bg-neutral-900{% endblock bodyclass %}
+
+{% block css %}{{ block.super }}{% endblock css %}
+{% block title %}
+  {% block head_title %}
+    {% trans "Sign In" %}
+  {% endblock head_title %}
+{% endblock title %}
+{% block body %}
+<div class="h-full bg-neutral-900">
+  <div class="relative flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <a href="/" class="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 group">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      <span class="text-sm font-medium">Back to home</span>
+    </a>
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+          <img src="{% load static %}{% static 'images/logo.svg' %}" alt="Your Company" class="mx-auto h-10 w-auto" />
+          <h2 class="mt-6 text-center text-4xl/9 font-bold tracking-tight text-white">
+            {% block head_title_display %}{% trans "Sign in to your account" %}{% endblock head_title_display %}
+          </h2>
+      </div>
+      {% block content %}
+      {% endblock content %}
+      <p class="mt-10 text-center text-sm/6 text-gray-400">
+       {% block bottom_text %}
+       {% endblock bottom_text %}
+      </p>
+  </div>
+</div>
+{% endblock body %}

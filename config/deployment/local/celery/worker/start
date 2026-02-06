@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+wait-for-it "${POSTGRES_HOST}:${POSTGRES_PORT}" -t 30
+
+>&2 echo 'PostgreSQL is available'
+
+if ! python /app/manage.py migrate --check; then
+    >&2 echo 'Running migrations'
+    python /app/manage.py migrate --noinput
+fi
+
+>&2 echo 'Starting celery worker'
+exec watchfiles --filter python celery.__main__.main --args '-A config.celery worker -l INFO'

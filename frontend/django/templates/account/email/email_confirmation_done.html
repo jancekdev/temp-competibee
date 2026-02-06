@@ -1,0 +1,158 @@
+
+{% extends "account/email/base_message.html" %}
+
+{% block email_title %}Welcome totemp competibee - Account Activated!{% endblock %}
+
+{% block preview_text %}Yourtemp competibee account is now active and ready to use{% endblock %}
+
+{% block email_heading %}Welcome totemp competibee! 🎉{% endblock %}
+
+{% block email_content %}
+<p style="margin: 0 0 20px 0; color: #ffffff;">
+    Hi {{ user.get_username|default:"there" }},
+</p>
+
+<p style="margin: 0 0 20px 0; color: #9ca3af;">
+    Great news! Your email has been successfully confirmed and yourtemp competibee account is now fully activated.
+</p>
+
+<p style="margin: 0 0 20px 0; color: #9ca3af;">a competibee temp.
+</p>
+{% endblock %}
+
+{% block email_cta %}
+<tr>
+    <td align="center" style="padding: 30px 0;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                    <a href="{{ site_url }}/dashboard" target="_blank" style="display: inline-block; padding: 16px 32px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
+                        Go to Dashboard
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+{% endblock %}
+
+{% block additional_content %}
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+    <tr>
+        <td>
+            <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: 600; color: #ffffff;">
+                Get Started withtemp competibee
+            </h2>
+        </td>
+    </tr>
+</table>
+
+<!-- TODO: replace -->
+<!-- Feature Cards -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td style="padding-bottom: 20px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+                <tr>
+                    <td>
+                        <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                            🚀 Quick Start Guide
+                        </h3>
+                        <p style="margin: 0 0 15px 0; font-size: 14px; color: #9ca3af; line-height: 1.5;">
+                            Get up and running in minutes with our comprehensive documentation and tutorials.
+                        </p>
+                        <a href="{{ site_url }}/app/quickstart" style="display: inline-block; font-size: 14px; font-weight: 500; color: #14b8a6; text-decoration: none;">
+                            Read the Guide →
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding-bottom: 20px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+                <tr>
+                    <td>
+                        <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                            💡 Explore Features
+                        </h3>
+                        <p style="margin: 0 0 15px 0; font-size: 14px; color: #9ca3af; line-height: 1.5;">
+                            Discover all the powerful featurestemp competibee offers to streamline your development workflow.
+                        </p>
+                        <a href="{{ site_url }}/features" style="display: inline-block; font-size: 14px; font-weight: 500; color: #14b8a6; text-decoration: none;">
+                            View Features →
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding-bottom: 20px;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px;">
+                <tr>
+                    <td>
+                        <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                            👥 Join the Community
+                        </h3>
+                        <p style="margin: 0 0 15px 0; font-size: 14px; color: #9ca3af; line-height: 1.5;">
+                            Connect with other developers, share ideas, and get help from our vibrant community.
+                        </p>
+                        <a href="{{ site_url }}/community" style="display: inline-block; font-size: 14px; font-weight: 500; color: #14b8a6; text-decoration: none;">
+                            Join Now →
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!-- Pro Tips Section -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px;">
+    <tr>
+        <td style="padding: 20px; background-color: rgba(20, 184, 166, 0.1); border-radius: 8px; border-left: 4px solid #14b8a6;">
+            <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 600; color: #5eead4;">
+                💡 Pro Tips to Get the Most Out oftemp competibee
+            </h3>
+            <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #5eead4;">
+                <li style="margin-bottom: 8px;">Complete your profile to unlock personalized features</li>
+                <li>Subscribe to our newsletter for updates and tips</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<!-- Support Section -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 30px;">
+    <tr>
+        <td align="center">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #ffffff;">
+                Need Help?
+            </h3>
+            <p style="margin: 0 0 20px 0; font-size: 14px; color: #9ca3af;">
+                Our support team is here to help you succeed
+            </p>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td style="padding: 0 15px;">
+                        <a href="{{ site_url }}/app" style="color: #14b8a6; text-decoration: none; font-size: 14px;">
+                            📚 Documentation
+                        </a>
+                    </td>
+                    <td style="padding: 0 15px;">
+                        <a href="info@competibee.com" style="color: #14b8a6; text-decoration: none; font-size: 14px;">
+                            ✉️ Email Support
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block email_id %}WELCOME-{{ user.id }}-{{ timestamp|default:"" }}{% endblock %}

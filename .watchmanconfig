@@ -1,0 +1,18 @@
+{
+    "ignore_dirs": [
+      ".git",
+      ".venv",
+      "__pycache__",
+      "node_modules",
+      "staticfiles",
+      "media",
+      ".pytest_cache",
+      "htmlcov",
+      ".tox",
+      "dist",
+      ".mypy_cache",
+      ".ruff_cache",
+      "*.egg-info"
+    ],
+    "settle": 20
+  }

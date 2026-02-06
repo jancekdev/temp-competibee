@@ -1,0 +1,106 @@
+
+{% extends "allauth/layouts/entrance.html" %}
+{% load allauth i18n %}
+
+{% block head_title %}{% trans "Confirm Email" %}{% endblock head_title %}
+{% block head_title_display %}{% trans "Confirm your email" %}{% endblock head_title_display %}
+
+{% block content %}
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+    <div class="bg-neutral-950/30 backdrop-blur-sm px-6 py-12 outline outline-1 -outline-offset-1 outline-white/10 shadow-2xl sm:rounded-2xl sm:px-12">
+      {% if confirmation %}
+        <div class="text-center">
+          <!-- Success Icon -->
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20 mb-6">
+            <svg class="h-8 w-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </div>
+
+          <!-- Heading and description -->
+          <h3 class="text-xl font-semibold text-white mb-3">
+            {% trans "Confirm Your Email" %}
+          </h3>
+          <p class="text-center text-sm/6 text-gray-300 mb-8">
+            {% blocktrans with confirmation.email_address.email as email %}Please confirm that <strong class="text-white">{{ email }}</strong> is an email address for user {{ confirmation.email_address.user.get_display_name }}.{% endblocktrans %}
+          </p>
+
+          <!-- Email Display -->
+          <div class="bg-neutral-800/50 border border-neutral-700 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-center">
+              <svg class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75Z" />
+              </svg>
+              <span class="text-white font-medium">{{ confirmation.email_address.email }}</span>
+            </div>
+          </div>
+
+          <form method="POST" action="{% url 'account_confirm_email' confirmation.key %}" class="space-y-4">
+            {% csrf_token %}
+            
+            <button type="submit" class="flex w-full justify-center rounded-lg bg-green-600 px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-neutral-900">
+              <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              {% trans "Confirm Email Address" %}
+            </button>
+          </form>
+
+          <!-- Help Text -->
+          <div class="mt-6 pt-6 border-t border-white/10">
+            <p class="text-xs text-gray-500">
+              {% trans "By confirming, you'll be able to access all features of your account." %}
+            </p>
+          </div>
+        </div>
+      {% else %}
+        <div class="text-center">
+          <!-- Error Icon -->
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20 mb-6">
+            <svg class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-6.375a.75.75 0 0 1 1.5 0v4.5m0 0a.75.75 0 0 1-1.5 0m0 0h.008v.008H12V15.75Z" />
+            </svg>
+          </div>
+
+          <!-- Error Heading and description -->
+          <h3 class="text-xl font-semibold text-white mb-3">
+            {% trans "Link Expired" %}
+          </h3>
+          <p class="text-center text-sm/6 text-gray-300 mb-8">
+            {% trans "This email confirmation link has expired or is invalid. Don't worry, we can send you a new one right away." %}
+          </p>
+
+          <!-- Info Box -->
+          <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+            <div class="flex items-start">
+              <svg class="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+              <div class="text-sm">
+                <p class="text-yellow-900 dark:text-yellow-200 font-medium mb-1">
+                  {% trans "Security Notice" %}
+                </p>
+                <p class="text-yellow-800 dark:text-yellow-300 text-xs">
+                  {% trans "Confirmation links expire after 24 hours to keep your account secure." %}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <a href="{% url 'account_email' %}" class="flex w-full justify-center rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-neutral-900">
+            <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75Z" />
+            </svg>
+            {% trans "Get New Confirmation Link" %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}
+{% block bottom_text %}
+<p class="text-center text-sm/6 text-gray-400">
+  <a href="{% url 'account_login' %}" class="font-semibold text-teal-400 hover:text-teal-300">Back to sign in</a>
+</p>
+{% endblock bottom_text %}

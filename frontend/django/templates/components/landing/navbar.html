@@ -1,0 +1,26 @@
+
+<header class="relative z-50">
+    <nav class="bg-neutral-900/95 dark:bg-neutral-900/95 backdrop-blur-md border-b border-neutral-800 dark:border-neutral-800 px-4 lg:px-6 py-4">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+            <a href="{% url 'home' %}" class="flex items-center group">
+                
+                <div class="w-8 h-8 bg-gradient-to-r from-teal-500 to-teal-400 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">t</span>
+                </div>
+                <span class="hidden sm:block ml-3 text-xl font-bold whitespace-nowrap text-white dark:text-white">temp competibee</span>
+            </a>
+            <div class="flex items-center lg:order-2">
+                
+                {% if user.is_authenticated %}
+                  <!-- Dashboard button for authenticated users -->
+                  <a href="{% url 'core:dashboard' %}" class="text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-500/50 font-medium rounded-lg text-sm px-4 sm:px-6 lg:px-7 py-2.5 mr-2 transition-colors duration-200 focus:outline-none">Dashboard</a>
+                {% else %}
+                  <!-- Sign In/Get Started buttons for non-authenticated users -->
+                  <a href="{% url 'account_login' %}" class="sm:inline-block text-neutral-300 dark:text-neutral-300 hover:text-white dark:hover:text-white hover:bg-neutral-800 dark:hover:bg-neutral-800 focus:ring-4 focus:ring-teal-500/50 font-medium rounded-lg text-sm px-3 sm:px-4 lg:px-5 py-2.5 mr-2 sm:mr-3 transition-colors duration-200 focus:outline-none">Sign In</a>
+                  <a href="{% url 'account_signup' %}" class="text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-500/50 font-medium rounded-lg text-sm px-4 sm:px-6 lg:px-7 py-2.5 mr-2 transition-colors duration-200 focus:outline-none">Get Started</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+  </header>
+

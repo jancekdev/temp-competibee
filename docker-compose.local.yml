@@ -1,0 +1,111 @@
+volumes:
+  temp_competibee_local_postgres_data: {}
+  temp_competibee_local_redis_data: {}
+services:
+  setup:
+    build:
+      context: .
+      dockerfile: ./config/setup/Dockerfile
+    image: temp_competibee_setup
+    container_name: temp_competibee_setup
+    profiles:
+      - setup
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+
+  django:  &django
+    build:
+      context: .
+      dockerfile: ./config/deployment/local/Dockerfile
+    image: temp_competibee_local_django
+    container_name: temp_competibee_local_django
+    depends_on:
+      - postgres
+      - redis
+      - mailpit
+    volumes:
+      - /app/.venv
+      - /app/.cache
+      - .:/app:z
+    env_file:
+      - ./.envs/local/django.env
+      - ./.envs/local/postgres.env
+    ports:
+      - '8000:8000'
+    command: /start
+
+  postgres:
+    image: postgres:18
+    container_name: temp_competibee_local_postgres
+    volumes:
+      - temp_competibee_local_postgres_data:/var/lib/postgresql
+    env_file:
+      - ./.envs/local/postgres.env
+    ports:
+      - "5432:5432"
+
+  mailpit:
+    image: docker.io/axllent/mailpit:latest
+    container_name: temp_competibee_local_mailpit
+    ports:
+      - "8025:8025"
+  react:
+    build:
+      context: .
+      dockerfile: ./config/deployment/local/react/Dockerfile
+    image: temp_competibee_local_react
+    container_name: temp_competibee_local_react
+    volumes:
+      - ./frontend:/app/frontend:z
+    ports:
+      - "3000:3000"
+
+  traefik:
+    image: traefik:latest
+    container_name: temp_competibee_local_traefik
+    volumes:
+      - ./config/deployment/local/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - django
+      - react
+    ports:
+      - "4000:4000"
+
+  redis:
+    image: docker.io/redis:6
+    container_name: temp_competibee_local_redis
+    volumes:
+      - temp_competibee_local_redis_data:/data
+
+  celeryworker:
+    <<: *django
+    image: temp_competibee_local_celeryworker
+    container_name: temp_competibee_local_celeryworker
+    depends_on:
+      - redis
+      - postgres
+      - mailpit
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: temp_competibee_local_celerybeat
+    container_name: temp_competibee_local_celerybeat
+    depends_on:
+      - redis
+      - postgres
+      - mailpit
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: temp_competibee_local_flower
+    container_name: temp_competibee_local_flower
+    ports:
+      - '5555:5555'
+    command: /start-flower

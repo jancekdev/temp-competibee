@@ -1,0 +1,9 @@
+.editorconfig
+.gitattributes
+.github
+.gitignore
+.gitlab-ci.yml
+venv
+.venv
+.cache
+.git

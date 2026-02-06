@@ -1,0 +1,165 @@
+
+{% extends "allauth/layouts/entrance.html" %}
+{% load allauth i18n %}
+{% load socialaccount %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock head_title %}
+{% block head_title_display %}{% trans "Create your account" %}{% endblock head_title_display %}
+
+{% block content %}
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+    <div class="bg-neutral-950/30 backdrop-blur-sm px-6 py-12 outline outline-1 -outline-offset-1 outline-white/10 shadow-2xl sm:rounded-2xl sm:px-12">
+      <form method="POST" action="{% url 'account_signup' %}" class="space-y-6">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+          <div class="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4">
+            <h3 class="text-sm font-medium text-red-900 dark:text-red-200">{{ form.non_field_errors }}</h3>
+          </div>
+        {% endif %}
+
+        {% if form.username %}
+          <div>
+            <label for="id_username" class="block text-sm font-medium text-white mb-2">Username</label>
+            <div class="mt-2">
+              <input id="id_username" type="text" name="username" required autocomplete="username" class="block w-full rounded-lg bg-neutral-800/50 border {% if form.username.errors %}border-red-500 focus:ring-red-500{% else %}border-neutral-700 focus:ring-teal-500{% endif %} px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200" />
+            </div>
+            {% if form.username.errors %}
+              <div class="mt-2">
+                <p class="text-sm text-red-600 dark:text-red-400">{{ form.username.errors.0 }}</p>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+        
+        <div>
+          <label for="id_email" class="block text-sm font-medium text-white mb-2">Email address</label>
+          <div class="mt-2">
+            <input id="id_email" type="email" name="email" required autocomplete="email" class="block w-full rounded-lg bg-neutral-800/50 border {% if form.email.errors %}border-red-500 focus:ring-red-500{% else %}border-neutral-700 focus:ring-teal-500{% endif %} px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200" />
+          </div>
+          {% if form.email.errors %}
+            <div class="mt-2">
+              <p class="text-sm text-red-600 dark:text-red-400">{{ form.email.errors.0 }}</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <div x-data="{ showPassword: false }">
+          <label for="id_password1" class="block text-sm font-medium text-white mb-2">Password</label>
+          <div class="mt-2 relative">
+            <input id="id_password1" :type="showPassword ? 'text' : 'password'" name="password1" required autocomplete="new-password" class="block w-full rounded-lg bg-neutral-800/50 border {% if form.password1.errors %}border-red-500 focus:ring-red-500{% else %}border-neutral-700 focus:ring-teal-500{% endif %} px-3 py-2 pr-10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200" />
+            <button type="button" 
+                    @click="showPassword = !showPassword"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors duration-200">
+              <!-- Eye Icon (hidden) -->
+              <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.639 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.639 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              <!-- Eye Slash Icon (visible) -->
+              <svg x-show="showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 1-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </button>
+          </div>
+          {% if form.password1.errors %}
+            <div class="mt-2">
+              <p class="text-sm text-red-600 dark:text-red-400">{{ form.password1.errors.0 }}</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <div x-data="{ showPassword: false }">
+          <label for="id_password2" class="block text-sm font-medium text-white mb-2">Confirm password</label>
+          <div class="mt-2 relative">
+            <input id="id_password2" :type="showPassword ? 'text' : 'password'" name="password2" required autocomplete="new-password" class="block w-full rounded-lg bg-neutral-800/50 border {% if form.password2.errors %}border-red-500 focus:ring-red-500{% else %}border-neutral-700 focus:ring-teal-500{% endif %} px-3 py-2 pr-10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200" />
+            <button type="button" 
+                    @click="showPassword = !showPassword"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors duration-200">
+              <!-- Eye Icon (hidden) -->
+              <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.639 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.639 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              <!-- Eye Slash Icon (visible) -->
+              <svg x-show="showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 1-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </button>
+          </div>
+          {% if form.password2.errors %}
+            <div class="mt-2">
+              <p class="text-sm text-red-600 dark:text-red-400">{{ form.password2.errors.0 }}</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-lg bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-neutral-900">Sign up</button>
+        </div>
+      </form>
+
+      <div>
+        <div class="mt-10 flex items-center gap-x-6">
+          <div class="w-full flex-1 border-t border-white/10"></div>
+          <p class="text-sm font-medium text-nowrap text-white">Or continue with</p>
+          <div class="w-full flex-1 border-t border-white/10"></div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 gap-4">
+          {% if SOCIALACCOUNT_ENABLED %}
+            {% get_providers as providers %}
+            {% for provider in providers %}
+              {% if provider.id == "google" %}
+                <a href="{% provider_login_url provider.id process='signup' %}" class="flex w-full items-center justify-center gap-3 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 focus-visible:inset-ring-transparent">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5">
+                    <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335" />
+                    <path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4" />
+                    <path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05" />
+                    <path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.2654 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853" />
+                  </svg>
+                  <span class="text-sm font-semibold">Google</span>
+                </a>
+              {% endif %}
+            {% endfor %}
+
+            {% for provider in providers %}
+              {% if provider.id == "github" %}
+                <a href="{% provider_login_url provider.id process='signup' %}" class="flex w-full items-center justify-center gap-3 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 focus-visible:inset-ring-transparent">
+                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5 fill-white">
+                    <path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd" fill-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm font-semibold">GitHub</span>
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <a href="#" class="flex w-full items-center justify-center gap-3 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 focus-visible:inset-ring-transparent">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5">
+                <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335" />
+                <path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4" />
+                <path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05" />
+                <path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.2654 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853" />
+              </svg>
+              <span class="text-sm font-semibold">Google</span>
+            </a>
+
+            <a href="#" class="flex w-full items-center justify-center gap-3 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 focus-visible:inset-ring-transparent">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5 fill-white">
+                <path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd" fill-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-semibold">GitHub</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block bottom_text %}
+<p class="text-center text-sm text-gray-400">
+  Already have an account?
+  <a href="{% url 'account_login' %}" class="font-semibold text-teal-400 hover:text-teal-300">Sign in</a>
+</p>
+{% endblock bottom_text %}

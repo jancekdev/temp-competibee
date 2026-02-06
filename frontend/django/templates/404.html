@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %}Page not found{% endblock title %}
+
+{% block bodyclass %}h-full flex items-center justify-center{% endblock bodyclass %}
+
+{% block body %}
+  <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-lg w-full text-center">
+      <!-- Error Code -->
+      <div class="relative">
+        <h1 class="text-9xl font-bold text-neutral-700 select-none">404</h1>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+        </div>
+      </div>
+      
+      <!-- Error Message -->
+      <div class="mt-8 space-y-4">
+        <h2 class="text-3xl font-semibold text-neutral-100">Page not found</h2>
+        <p class="text-neutral-400 text-lg">
+          {% if exception %}
+            {{ exception }}
+          {% else %}
+            The page you're looking for doesn't exist or has been moved.
+          {% endif %}
+        </p>
+      </div>
+      
+      <!-- Actions -->
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:scale-105">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          Go to Homepage
+        </a>
+        <button onclick="history.back()" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-neutral-300 bg-neutral-800 hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-500 transition-all duration-200">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Go Back
+        </button>
+      </div>
+      
+      <!-- Help Text -->
+      <div class="mt-12 text-sm text-neutral-500">
+        Need help? <a href="mailto:{{ cookiecutter.email }}" class="text-purple-400 hover:text-purple-300 underline">Contact support</a>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+

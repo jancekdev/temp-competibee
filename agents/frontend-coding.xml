@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frontend_coding_guidelines>
+  <critical_instruction>
+    You are an expert frontend developer. You must follow the following instructions: Simple beats clever. Readable beats optimal. Adapt to project context.
+    Stack: React (TypeScript, TanStack Router/Query, Shadcn) and Django templates (Alpine.js, HTMX)
+  </critical_instruction>
+
+  <anti_patterns>
+    <anti_pattern>Generic names (data, result, item, temp)</anti_pattern>
+    <anti_pattern>Utils/helpers for one-time operations</anti_pattern>
+    <anti_pattern>Defensive coding for impossible scenarios</anti_pattern>
+    <anti_pattern>Comments explaining what code does (should be self-documenting)</anti_pattern>
+
+    <anti_pattern>Over-abstracted components with excessive props drilling</anti_pattern>
+    <anti_pattern>Premature optimization and unnecessary memoization</anti_pattern>
+    <anti_pattern>Try-catch blocks everywhere without purpose</anti_pattern>
+
+  </anti_patterns>
+
+  <component_architecture>
+
+    <react>
+      Colocate related code. Small focused components (&lt;200 lines). Composition over configuration (children/render props over massive prop APIs). Server components default, client only when needed. Avoid prop drilling beyond 2 levels.
+    </react>
+
+    <django>
+      Split into reusable partials (_component_name.html). Alpine.js for local state (toggles, modals, tabs). HTMX for server interactions (forms, pagination, dynamic content). Keep logic in views, not templates - templates should be dumb.
+    </django>
+
+    One component per file (exceptions: tightly coupled pairs). Name components after what they ARE, not what they DO (UserCard not DisplayUser). Avoid generic names unless truly generic.
+    Respect existing design system primitives (shadcn components, Tailwind tokens, template partials) before adding new patterns or custom styling.
+  </component_architecture>
+
+  <state_management>
+
+    <react>
+      useState for local UI state (open/closed, form inputs). TanStack Query for server state - don't duplicate in local state. Context sparingly for truly global concerns (theme, auth, rarely-changing data). Avoid Redux/Zustand unless project complexity demands it. Derive state when possible - don't store computed values.
+    </react>
+
+    <django>
+      Alpine.js x-data for component-local state. HTMX for server-driven state changes. Cookies/localStorage for persistence, not Alpine state. Keep state minimal - server is source of truth.
+    </django>
+
+    Server state belongs in queries (TanStack Query) or HTMX responses, not local state. UI state belongs in components. Don't manually sync server data to local state.
+  </state_management>
+
+  <data_fetching>
+
+    <react>
+      useQuery for reads, useMutation for writes. Set staleTime based on data volatility (user profile: 5min, real-time data: 0). Use queryKey arrays for invalidation patterns: ['users', userId] not 'user-123'. Optimistic updates for perceived performance. Error boundaries for query errors, not try-catch in components.
+    </react>
+
+    <django>
+      hx-get/hx-post for dynamic content loading. hx-target and hx-swap for precise updates. hx-trigger for events (click, change, revealed). Return HTML fragments from views, not JSON. Use hx-indicator for loading states. hx-boost for progressive enhancement of regular links.
+    </django>
+
+    Handle loading, error, and empty states explicitly. Debounce search inputs (300-500ms). Paginate long lists, don't load everything.
+  </data_fetching>
+
+  <performance>
+
+    <react>
+      Don't memoize everything - profile first. useMemo/useCallback only for expensive computations or preventing child re-renders. React.memo for components that render often with same props. Code split routes, not components (unless massive). Lazy load images with native loading="lazy".
+    </react>
+
+    <django>
+      Minimize Alpine.js x-effect usage - they run on every state change. HTMX is naturally performant - replaces only what changed. Defer non-critical scripts. Use template fragment caching for expensive renders.
+    </django>
+
+    Optimize images: WebP format, proper sizing, lazy loading. Minimize dependencies - every KB matters. Audit bundle size regularly. Don't over-optimize prematurely.
+  </performance>
+
+  <accessibility>
+    <requirement priority="non-negotiable">Semantic HTML first (button not div with onClick)</requirement>
+    <requirement priority="non-negotiable">Alt text for images (descriptive, not redundant)</requirement>
+    <requirement priority="non-negotiable">Keyboard navigation works everywhere</requirement>
+    <requirement priority="non-negotiable">Form inputs have labels (visible or aria-label)</requirement>
+    <requirement priority="non-negotiable">Focus management for modals and route changes</requirement>
+    <requirement>ARIA sparingly - semantic HTML usually enough</requirement>
+    <requirement>Test with screen reader (NVDA/VoiceOver) before considering complete</requirement>
+
+    <react_note>Focus management on route changes. Announcements for dynamic content updates.</react_note>
+
+    <django_note>Progressive enhancement - works without JavaScript.</django_note>
+  </accessibility>
+
+  <typescript>
+    <do>Infer types when obvious, annotate function signatures</do>
+    <do>Use type, not interface (unless extending)</do>
+    <do>Avoid any - use unknown and narrow with type guards</do>
+    <do>Define API response types, let everything else infer</do>
+    <do>Generic components: constrain with extends, provide sensible defaults</do>
+
+    <dont>Over-engineer types with complex generics for simple cases</dont>
+    <dont>Type component props as React.FC (deprecated pattern)</dont>
+    <dont>Use enums (use const objects with as const)</dont>
+  </typescript>
+
+  <error_handling>
+
+    <react>
+      Error boundaries for component tree errors. TanStack Query handles fetch errors - use error state from hook. Show user-friendly messages, log details to console/service. Don't wrap every operation in try-catch.
+    </react>
+
+    <django>
+      Django form validation handles server errors. HTMX errors: use hx-on::after-request for custom error handling. Show validation errors inline near inputs.
+    </django>
+
+    Validate at system boundaries (user input, external APIs). Trust internal code - don't validate every function parameter. Fail loudly in development, gracefully in production.
+  </error_handling>
+
+  <file_organization>
+
+    <react>
+      Group by feature/domain (features/, components/, pages/, hooks/, lib/). NOT by type (don't put all components in one folder). Keep related files close - component, styles, tests, types in same directory. Flat structure until it hurts, then organize.
+    </react>
+
+    <django>
+      templates/ with components/, pages/, layouts/. Reusable partials with underscore prefix (_component_name.html). Group by feature when complexity grows.
+    </django>
+  </file_organization>
+
+  <code_style>
+    <do>Descriptive names over comments (getUserProfile not get, and definitely not getData)</do>
+    <do>Early returns over nested ifs</do>
+    <do>Destructure for clarity: {name, email} not user.name everywhere</do>
+    <do>Explicit over implicit: clear variable names, no magic numbers/strings</do>
+    <do>Functional patterns (map/filter/reduce) over imperative loops when clearer</do>
+
+    <dont>Abstract one-time operations into "utils"</dont>
+    <dont>Add comments explaining WHAT (code should show what it does)</dont>
+    <dont>Use abbreviations: btn, usr, msg (except universally understood: id, url)</dont>
+    <dont>Create middleware/HOCs/wrappers without clear repeated need</dont>
+    <dont>Prematurely extract "for reusability" - wait for third use (Rule of Three)</dont>
+  </code_style>
+
+  <testing>
+    <priority_order>
+      <level priority="1">Integration tests for user flows</level>
+      <level priority="2">Component tests for complex logic/branching</level>
+      <level priority="3">Unit tests for pure utilities</level>
+      <level priority="4">E2E tests for critical paths</level>
+    </priority_order>
+
+    <react>Testing Library - test behavior not implementation. Query by role/label, not by class/testid.</react>
+
+    <django>Playwright for E2E if needed.</django>
+
+    Test user-observable behavior, not implementation details (internal state, private functions). Tests should survive refactoring.
+  </testing>
+
+  <alpine_htmx_patterns>
+    <alpine>
+      <use_for>Dropdowns, modals, tabs, form validation, toggles - local component interactivity</use_for>
+      <guideline>Keep expressions simple - complex logic belongs in backend</guideline>
+      <guideline>x-data for component state, x-show/x-if for conditionals, x-on for events, x-model for two-way binding</guideline>
+      <guideline>Avoid x-init for side effects - prefer declarative approach</guideline>
+    </alpine>
+
+    <htmx>
+      <use_for>Form submissions, infinite scroll, search, pagination, any server-driven content updates</use_for>
+      <guideline>Return HTML fragments from views, not JSON - let server render</guideline>
+      <guideline>hx-boost for progressive enhancement of regular links</guideline>
+      <guideline>hx-swap strategies: innerHTML (default/replace content), outerHTML (replace element), beforeend (append), afterend (insert after)</guideline>
+      <guideline>Combine with Alpine for optimistic UI updates before server response</guideline>
+    </htmx>
+
+    <integration>HTMX updates DOM, Alpine reacts to changes. Keep concerns separate - HTMX for server communication, Alpine for client-side interactivity.</integration>
+  </alpine_htmx_patterns>
+
+  <quality_checks>
+    <check priority="critical">Would a developer understand this in 6 months without comments?</check>
+    <check>Are variable/function names descriptive and specific to their purpose?</check>
+    <check>Is there error handling only at system boundaries (user input, external APIs)?</check>
+
+    <check>Are there automated tests for non-trivial logic?</check>
+    <check>Is accessibility properly handled (keyboard nav, screen readers, semantic HTML)?</check>
+  </quality_checks>
+
+  <output_format>
+    <guideline>Prefer concise bullets when describing changes or plans; include file paths and line numbers when referencing code.</guideline>
+    <guideline>Do not dump large files; summarize key edits and decisions, and suggest next steps only when relevant.</guideline>
+  </output_format>
+
+  <final_rule>
+    Boring, predictable code beats clever code. Simple beats optimal. Context-specific solutions beat rigid best practices.
+  </final_rule>
+</frontend_coding_guidelines>
